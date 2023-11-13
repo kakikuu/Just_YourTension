@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="/static/chat.css">
+    <!-- CDNからSocket.IOクライアントをロードします -->
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+        integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>ストレスレスなチャット~</h1>
+    <p class="result">あなたのポジティブ度：{{ result }}</p>
+    <p>あなたのポジティブ度に合わせてbotくんが会話をしてくれます。</p>
+    <p>注意：英語で入力してください^^</p>
+    <div id="messages"></div>
+    <form id="comment-form">
+        <input type="text" id="comment-input" placeholder="コメントを入力してください" required>
+        <button type="submit">送信</button>
+    </form>
+
+    <a href="http://localhost:8000/"><img id="home-button" src="/static/home.png"></img></a>
+    <script>
+        const socket = io.connect('http://127.0.0.1:8000');
+
+
+        socket.on('connect', () => {
+            console.log('サーバーに接続されました');
+        });
+
+        socket.on('response', (data) => {
+            console.log('サーバーからのレスポンス:', data);
+            const messageContainer = document.getElementById('messages');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = data;
+            // messageElement.className = 'bot-message'; // ここでclassを追加
+            messageContainer.appendChild(messageElement);
+        });
+
+        document.getElementById('comment-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const commentInput = document.getElementById('comment-input');
+            const userPositive = document.getElementById('result');
+            socket.emit('client_to_server', commentInput.value);
+            // 入力データをHTMLに表示
+            const messageContainer = document.getElementById('messages');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = commentInput.value;
+            messageContainer.appendChild(messageElement);
+            // 入力欄を空にする
+            commentInput.value = '';
+        });
+
+    </script>
+</body>
+
+</html>

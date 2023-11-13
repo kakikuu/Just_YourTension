@@ -1,0 +1,180 @@
+body {
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    align-items: center;
+    background-color: #F6F6ED;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 400;
+    margin: 3rem;
+    padding: 0;
+    color: #624E42;
+    font-weight: bolder;
+    text-shadow: 0 4 3px #927452;
+}
+
+p {
+    font-size: 1rem;
+    margin-left: 10%;
+    padding: 0;
+    color: #927452;
+}
+
+/* フォームを固定して画面下部に配置 */
+#comment-form {
+    position: fixed;
+    bottom: 0;
+    width: 70%;
+    left: 15%;
+    /* 中央に配置するために左側に余白を設定 */
+    right: 15%;
+    /* 中央に配置するために右側に余白を設定 */
+    background: #F6F6ED;
+    margin: 2rem auto;
+    padding: 10px;
+    /* パディングで少しスペースを作る */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    /* 角を丸くする */
+    border-radius: 5px;
+
+}
+
+/* フォーム内の入力フィールドとボタンを横並びに */
+#comment-input,
+button {
+    display: inline-block;
+    /* インラインブロック要素に */
+    vertical-align: middle;
+    /* 垂直方向の中央揃え */
+}
+
+#comment-input {
+    width: calc(100% - 120px);
+    padding: 10px 15px;
+    /* パディングでテキストとの間に余白を作る */
+    margin: 10px 0;
+    /* 上下のマージンを設定 */
+    box-sizing: border-box;
+    /* パディングとボーダーを幅に含める */
+    border: 2px solid #F6F6ED;
+    /* ボーダーのスタイル */
+    border-radius: 4px;
+    /* 角を丸くする */
+    background-color: #F6F6ED;
+    /* 背景色 */
+    outline: none;
+    /* フォーカス時のアウトラインを消す */
+    font-size: 16px;
+    /* フォントサイズ */
+    transition: border-color 0.3s;
+    /* ボーダーカラーのトランジション効果 */
+}
+
+
+#comment-input::placeholder {
+    color: #999;
+    /* プレースホルダーの色 */
+    font-style: italic;
+    /* プレースホルダーのフォントスタイル */
+}
+
+
+/* 送信ボタンのスタイル */
+video,
+img,
+canvas {
+    margin: 0 auto;
+    display: block;
+    padding: 0;
+    background-color: #F6F6ED;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #624E42;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+}
+
+
+button {
+    width: 10rem;
+    height: 4rem;
+    margin: 4rem auto;
+    display: block;
+    padding: 0;
+    box-shadow: 0 0 5px #624E42;
+    border: none;
+    border-radius: 5px;
+    background-color: #F6F6ED;
+}
+
+/* マウスオーバーの処理を追加する */
+button:hover {
+    background-color: #F0AE9D;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+}
+
+
+/* フォーム内要素の余白の調整 */
+#comment-form * {
+    margin: 0;
+    padding: 0;
+}
+
+/* モバイル表示対応 */
+@media (max-width: 600px) {
+    #comment-input {
+        width: calc(100% - 80px);
+        /* 送信ボタンの幅をもっと小さく */
+    }
+
+    button {
+        width: 70px;
+        /* モバイルではボタンを小さく */
+    }
+}
+
+#messages div {
+    margin-top: 3rem;
+    margin-left: 10%;
+    background-color: #F3D5C6;
+    /* 背景色 */
+    padding: 10px;
+
+    /* 下側の外側の余白 */
+    border-radius: 5px;
+    /* 角の丸み */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 影の効果 */
+    width: fit-content;
+    /* コンテンツに応じた幅 */
+    max-width: 80%;
+    /* 最大幅を制限 */
+    word-wrap: break-word;
+    /* 長い単語でも折り返し */
+}
+
+
+#messages .bot-message {
+    margin-top: 0.5rem;
+    background-color: #F6F6ED;
+    /* ボットのメッセージの背景色 */
+}
+
+#home-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 3rem;
+    width: 3rem;
+    height: auto;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Test</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <h1>あなたのテンションを測定します！</h1>
+
+    <div id="camera-container">
+        <video id="camera"></video>
+        <img id="snapshot" width="600" height="400" style="display:none;" />
+    </div>
+
+    <canvas id="picture" width="600" height="400" style="display:none;"></canvas> <!-- canvasを非表示に -->
+
+    <!-- 送信用のフォーム -->
+    <form id="upload-form" action="/img_classify" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="image-file" style="display: none;" /> <!-- ユーザーには見えない -->
+        <button type="button" id="shutter">シャッター</button>
+        <button type="submit" id="submit" style="display:none;">送信</button> <!-- 最初は非表示に -->
+    </form>
+
+    <script>
+        window.onload = () => {
+            const video = document.getElementById('camera');
+            const canvas = document.getElementById('picture');
+            const shutterButton = document.getElementById('shutter');
+            const submitButton = document.getElementById('submit');
+            const snapshot = document.getElementById('snapshot');
+            const cameraContainer = document.getElementById('camera-container');
+            const imageFileInput = document.getElementById('image-file');
+
+            // カメラ設定
+            const constraints = {
+                audio: false,
+                video: {
+                    width: 600,
+                    height: 400,
+                    facingMode: "user"
+                }
+            };
+
+            // カメラを<video>と同期
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then((stream) => {
+                    video.srcObject = stream;
+                    video.onloadedmetadata = (e) => {
+                        video.play();
+                    };
+                })
+                .catch((err) => {
+                    console.error(err.name + ": " + err.message);
+                });
+
+            // シャッターボタンのイベントリスナー
+            shutterButton.addEventListener('click', () => {
+                const context = canvas.getContext('2d');
+                video.pause(); // 映像を停止
+                context.drawImage(video, 0, 0, canvas.width, canvas.height); // キャンバスに描画
+
+                // 画像を取得し表示
+                canvas.toBlob(blob => {
+                    snapshot.src = URL.createObjectURL(blob);
+                    snapshot.style.display = 'block'; // 撮影した写真を表示
+                    video.style.display = 'none'; // カメラの映像を非表示
+                    shutterButton.style.display = 'none'; // シャッターボタンを非表示
+                    submitButton.style.display = 'block'; // 送信ボタンを表示
+
+                    // BlobをFileオブジェクトに変換し、input要素に設定
+                    const file = new File([blob], "image.jpg", { type: "image/jpeg" });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    imageFileInput.files = dataTransfer.files;
+                }, 'image/jpeg');
+            });
+        };
+    </script>
+
+</body>
+
+</html>
